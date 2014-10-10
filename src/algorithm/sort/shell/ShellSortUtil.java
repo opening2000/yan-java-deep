@@ -33,9 +33,6 @@ public class ShellSortUtil {
 	 */
 	public static void shellSort(int[] ary){
 		if(ary != null && ary.length > 1){
-			//int i = 0;
-			//int j = 0;
-			//int d = 0;
 			int d = ary.length/2;
 			while(d>0){
 				for(int i=d;i<ary.length;i++){
@@ -45,6 +42,7 @@ public class ShellSortUtil {
 						ary[j] = ary[j+d];
 						ary[j+d] = tmp;
 						j = j-d;
+						System.out.println(Arrays.toString(ary));
 					}
 				}
 				d = d/2;
