@@ -1,4 +1,4 @@
-package designpattern.factory;
+package designpattern.factory.factory_method;
 
 public class StudentWork implements Work{
 
