@@ -53,6 +53,8 @@ public class BinaryNode {
 	 * add child to the current node to construct a tree. Time: O( nlog(n) )
 	 * **/
 	public void addChild(int n) {
+		//刚开始我认为，在这段代码中需要判断相等的情况，后来想想其实不需要，
+		//因为二叉树之规定任何节点不能比左侧的任何节点大，没有说不能相等
 		if (n < value) {
 			if (lChild != null) {
 				lChild.addChild(n);
@@ -71,7 +73,7 @@ public class BinaryNode {
 	// test case.
 	public static void main(String[] args) {
 		System.out.println();
-		int[] arr = new int[] { 23, 54, 1, 65, 9, 3, 100 };
+		int[] arr = new int[] { 23, 54, 1, 65, 9, 3, 65 , 100 };
 		BinaryNode root = new BinaryNode(arr[0], null, null);
 		for (int i = 1; i < arr.length; i++) {
 			root.addChild(arr[i]);
