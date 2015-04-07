@@ -1,4 +1,4 @@
-package datastruct.tree.btree.demo3;
+package datastruct.tree.binarytree.demo1;
 
 import java.util.LinkedList;
 import java.util.List;
