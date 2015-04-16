@@ -1,0 +1,827 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0063)http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./java synchronized详解 - Gang.Wang - 博客园_files/ga.js"></script><script async="" src="./java synchronized详解 - Gang.Wang - 博客园_files/analytics.js"></script>
+
+<title>java synchronized详解 - Gang.Wang - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./java synchronized详解 - Gang.Wang - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./java synchronized详解 - Gang.Wang - 博客园_files/bundle-SimpleBlue.css">
+<link type="text/css" rel="stylesheet" href="./java synchronized详解 - Gang.Wang - 博客园_files/68179.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/GnagWang/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/GnagWang/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/GnagWang/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./java synchronized详解 - Gang.Wang - 博客园_files/gpt.js"></script><script src="./java synchronized详解 - Gang.Wang - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'GnagWang', cb_enable_mathjax=false;</script>
+<script src="./java synchronized详解 - Gang.Wang - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script async="" type="text/javascript" src="./java synchronized详解 - Gang.Wang - 博客园_files/pubads_impl_59.js"></script><script type="text/javascript" src="./java synchronized详解 - Gang.Wang - 博客园_files/osd.js"></script></head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/GnagWang/">Gang.Wang</a></div>
+<div class="subtitle">纸上得来终觉浅，绝知此事要躬行  http://www.wgblogs.com/</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/GnagWang/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://space.cnblogs.com/msg/send/Gang.Wang">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/GnagWang/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/GnagWang/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-198&nbsp;
+文章-0&nbsp;
+评论-145&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./java synchronized详解 - Gang.Wang - 博客园_files/java synchronized详解 - Gang.Wang - 博客园.html">java synchronized详解</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>记下来，很重要。</p>  <p>Java语言的关键字，当它用来修饰一个方法或者一个代码块的时候，能够保证在同一时刻最多只有一个线程执行该段代码。 </p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 一、当两个并发线程访问同一个对象object中的这个synchronized(this)同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 二、然而，当一个线程访问object的一个synchronized(this)同步代码块时，另一个线程仍然可以访问该object中的非synchronized(this)同步代码块。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 三、尤其关键的是，当一个线程访问object的一个synchronized(this)同步代码块时，其他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 四、第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象所有同步代码部分的访问都被暂时阻塞。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 五、以上规则对其它对象锁同样适用.</p>  <p>举例说明：&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; 一、当两个并发线程访问同一个对象object中的这个synchronized(this)同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。</p>  <p>package ths;</p>  <p>public class Thread1 implements Runnable {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; public void run() {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; synchronized(this) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; 5; i++) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " synchronized loop " + i);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; public static void main(String[] args) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread1 t1 = new Thread1();&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread ta = new Thread(t1, "A");&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread tb = new Thread(t1, "B");&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ta.start();&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tb.start();&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }     <br>}</p>  <p>结果：&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; A synchronized loop 0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; A synchronized loop 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; A synchronized loop 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; A synchronized loop 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; A synchronized loop 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; B synchronized loop 0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; B synchronized loop 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; B synchronized loop 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; B synchronized loop 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; B synchronized loop 4</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 二、然而，当一个线程访问object的一个synchronized(this)同步代码块时，另一个线程仍然可以访问该object中的非synchronized(this)同步代码块。</p>  <p>package ths;</p>  <p>public class Thread2 {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; public void m4t1() {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; synchronized(this) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while( i-- &gt; 0) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : " + i);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (InterruptedException ie) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; public void m4t2() {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while( i-- &gt; 0) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : " + i);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (InterruptedException ie) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; public static void main(String[] args) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; final Thread2 myt2 = new Thread2();&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread t1 = new Thread(&nbsp; new Runnable() {&nbsp; public void run() {&nbsp; myt2.m4t1();&nbsp; }&nbsp; }, "t1"&nbsp; );&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread t2 = new Thread(&nbsp; new Runnable() {&nbsp; public void run() { myt2.m4t2();&nbsp;&nbsp; }&nbsp; }, "t2"&nbsp; );&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; t1.start();&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; t2.start();&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }     <br>}</p>  <p>结果：&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 0</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 三、尤其关键的是，当一个线程访问object的一个synchronized(this)同步代码块时，其他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; //修改Thread2.m4t2()方法：&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; public void m4t2() {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; synchronized(this) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while( i-- &gt; 0) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : " + i);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (InterruptedException ie) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; }</p>  <p>结果：</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 0</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 四、第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象所有同步代码部分的访问都被暂时阻塞。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; //修改Thread2.m4t2()方法如下：</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; public synchronized void m4t2() {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while( i-- &gt; 0) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : " + i);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (InterruptedException ie) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }</p>  <p>结果：&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : 0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : 0</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; 五、以上规则对其它对象锁同样适用:</p>  <p>package ths;</p>  <p>public class Thread3 {    <br>&nbsp;&nbsp;&nbsp;&nbsp; class Inner {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private void m4t1() {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(i-- &gt; 0) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : Inner.m4t1()=" + i);     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch(InterruptedException ie) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private void m4t2() {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(i-- &gt; 0) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : Inner.m4t2()=" + i);     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch(InterruptedException ie) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp; private void m4t1(Inner inner) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; synchronized(inner) { //使用对象锁     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inner.m4t1();     <br>&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp; private void m4t2(Inner inner) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inner.m4t2();     <br>&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp; public static void main(String[] args) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; final Thread3 myt3 = new Thread3();     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; final Inner inner = myt3.new Inner();     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread t1 = new Thread( new Runnable() {public void run() { myt3.m4t1(inner);} }, "t1");     <br>&nbsp;&nbsp;&nbsp;&nbsp; Thread t2 = new Thread( new Runnable() {public void run() { myt3.m4t2(inner);} }, "t2");     <br>&nbsp;&nbsp;&nbsp;&nbsp; t1.start();     <br>&nbsp;&nbsp;&nbsp;&nbsp; t2.start();     <br>&nbsp; }     <br>}</p>  <p>结果：</p>  <p>尽管线程t1获得了对Inner的对象锁，但由于线程t2访问的是同一个Inner中的非同步部分。所以两个线程互不干扰。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=0</p>  <p>现在在Inner.m4t2()前面加上synchronized：</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; private synchronized void m4t2() {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = 5;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(i-- &gt; 0) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName() + " : Inner.m4t2()=" + i);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(500);&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch(InterruptedException ie) {&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; }</p>  <p>结果：</p>  <p>尽管线程t1与t2访问了同一个Inner对象中两个毫不相关的部分,但因为t1先获得了对Inner的对象锁，所以t2对Inner.m4t2()的访问也被阻塞，因为m4t2()是Inner中的一个同步方法。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t1 : Inner.m4t1()=0&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=4&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=3&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=2&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=1&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp; t2 : Inner.m4t2()=0</p>  <p>第二篇：</p>  <p>synchronized 关键字，它包括两种用法：synchronized 方法和 synchronized 块。&nbsp; <br>1. synchronized 方法：通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如：&nbsp; <br>public synchronized void accessVal(int newVal);&nbsp; <br>synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能</p>  <p>执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得该锁，重新进入可执行</p>  <p>状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有</p>  <p>一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变量的方法均被声明为 synchronized）</p>  <p>。&nbsp; <br>在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成</p>  <p>员变量的访问。&nbsp; <br>synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为</p>  <p>synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可</p>  <p>以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供</p>  <p>了更好的解决办法，那就是 synchronized 块。&nbsp; <br>2. synchronized 块：通过 synchronized关键字来声明synchronized 块。语法如下：&nbsp; <br>synchronized(syncObject) {&nbsp; <br>//允许访问控制的代码&nbsp; <br>}&nbsp; <br>synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机</p>  <p>制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高。&nbsp; <br>对synchronized(this)的一些理解     <br>一、当两个并发线程访问同一个对象object中的这个synchronized(this)同步代码块时，一个时间内只能有一个线程得到执行。另一个线</p>  <p>程必须等待当前线程执行完这个代码块以后才能执行该代码块。&nbsp; <br>二、然而，当一个线程访问object的一个synchronized(this)同步代码块时，另一个线程仍然可以访问该object中的非synchronized</p>  <p>(this)同步代码块。&nbsp; <br>三、尤其关键的是，当一个线程访问object的一个synchronized(this)同步代码块时，其他线程对object中所有其它synchronized(this)</p>  <p>同步代码块的访问将被阻塞。&nbsp; <br>四、第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个synchronized(this)同步代码块时，它就获得了这个</p>  <p>object的对象锁。结果，其它线程对该object对象所有同步代码部分的访问都被暂时阻塞。&nbsp; <br>五、以上规则对其它对象锁同样适用</p>  <p><a href="http://hi.baidu.com/sunshibing/blog/item/5235b9b731d48ff430add14a.html">http://hi.baidu.com/sunshibing/blog/item/5235b9b731d48ff430add14a.html</a>     <br><strong>java中synchronized用法</strong></p>  <p>打个比方：一个object就像一个大房子，大门永远打开。房子里有 很多房间（也就是方法）。</p>  <p>这些房间有上锁的（synchronized方法）， 和不上锁之分（普通方法）。房门口放着一把钥匙（key），这把钥匙可以打开所有上锁的房间。</p>  <p>另外我把所有想调用该对象方法的线程比喻成想进入这房子某个 房间的人。所有的东西就这么多了，下面我们看看这些东西之间如何作用的。</p>  <p>在此我们先来明确一下我们的前提条件。该对象至少有一个synchronized方法，否则这个key还有啥意义。当然也就不会有我们的这个主题了。</p>  <p>一个人想进入某间上了锁的房间，他来到房子门口，看见钥匙在那儿（说明暂时还没有其他人要使用上锁的 房间）。于是他走上去拿到了钥匙</p>  <p>，并且按照自己 的计划使用那些房间。注意一点，他每次使用完一次上锁的房间后会马上把钥匙还回去。即使他要连续使用两间上锁的房间，</p>  <p>中间他也要把钥匙还回去，再取回来。</p>  <p>因此，普通情况下钥匙的使用原则是：“随用随借，用完即还。”</p>  <p>这时其他人可以不受限制的使用那些不上锁的房间，一个人用一间可以，两个人用一间也可以，没限制。但是如果当某个人想要进入上锁的房</p>  <p>间，他就要跑到大门口去看看了。有钥匙当然拿了就走，没有的话，就只能等了。</p>  <p>要是很多人在等这把钥匙，等钥匙还回来以后，谁会优先得到钥匙？Not guaranteed。象前面例子里那个想连续使用两个上锁房间的家伙，他</p>  <p>中间还钥匙的时候如果还有其他人在等钥匙，那么没有任何保证这家伙能再次拿到。 （JAVA规范在很多地方都明确说明不保证，象</p>  <p>Thread.sleep()休息后多久会返回运行，相同优先权的线程那个首先被执行，当要访问对象的锁被 释放后处于等待池的多个线程哪个会优先得</p>  <p>到，等等。我想最终的决定权是在JVM，之所以不保证，就是因为JVM在做出上述决定的时候，绝不是简简单单根据 一个条件来做出判断，而是</p>  <p>根据很多条。而由于判断条件太多，如果说出来可能会影响JAVA的推广，也可能是因为知识产权保护的原因吧。SUN给了个不保证 就混过去了</p>  <p>。无可厚非。但我相信这些不确定，并非完全不确定。因为计算机这东西本身就是按指令运行的。即使看起来很随机的现象，其实都是有规律</p>  <p>可寻。学过 计算机的都知道，计算机里随机数的学名是伪随机数，是人运用一定的方法写出来的，看上去随机罢了。另外，或许是因为要想弄</p>  <p>的确定太费事，也没多大意义，所 以不确定就不确定了吧。）</p>  <p>再来看看同步代码块。和同步方法有小小的不同。</p>  <p>1.从尺寸上讲，同步代码块比同步方法小。你可以把同步代码块看成是没上锁房间里的一块用带锁的屏风隔开的空间。</p>  <p>2.同步代码块还可以人为的指定获得某个其它对象的key。就像是指定用哪一把钥匙才能开这个屏风的锁，你可以用本房的钥匙；你也可以指定</p>  <p>用另一个房子的钥匙才能开，这样的话，你要跑到另一栋房子那儿把那个钥匙拿来，并用那个房子的钥匙来打开这个房子的带锁的屏风。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 记住你获得的那另一栋房子的钥匙，并不影响其他人进入那栋房子没有锁的房间。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 为什么要使用同步代码块呢？我想应该是这样的：首先对程序来讲同步的部分很影响运行效率，而一个方法通常是先创建一些局部变</p>  <p>量，再对这些变量做一些 操作，如运算，显示等等；而同步所覆盖的代码越多，对效率的影响就越严重。因此我们通常尽量缩小其影响范围。</p>  <p>如何做？同步代码块。我们只把一个方法中该同 步的地方同步，比如运算。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 另外，同步代码块可以指定钥匙这一特点有个额外的好处，是可以在一定时期内霸占某个对象的key。还记得前面说过普通情况下钥</p>  <p>匙的使用原则吗。现在不是普通情况了。你所取得的那把钥匙不是永远不还，而是在退出同步代码块时才还。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 还用前面那个想连续用两个上锁房间的家伙打比方。怎样才能在用完一间以后，继续使用另一间呢。用同步代码块吧。先创建另外</p>  <p>一个线程，做一个同步代码 块，把那个代码块的锁指向这个房子的钥匙。然后启动那个线程。只要你能在进入那个代码块时抓到这房子的钥匙</p>  <p>，你就可以一直保留到退出那个代码块。也就是说 你甚至可以对本房内所有上锁的房间遍历，甚至再sleep(10*60*1000)，而房门口却还有</p>  <p>1000个线程在等这把钥匙呢。很过瘾吧。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在此对sleep()方法和钥匙的关联性讲一下。一个线程在拿到key后，且没有完成同步的内容时，如果被强制sleep()了，那key还一</p>  <p>直在 它那儿。直到它再次运行，做完所有同步内容，才会归还key。记住，那家伙只是干活干累了，去休息一下，他并没干完他要干的事。为</p>  <p>了避免别人进入那个房间 把里面搞的一团糟，即使在睡觉的时候他也要把那唯一的钥匙戴在身上。</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 最后，也许有人会问，为什么要一把钥匙通开，而不是一个钥匙一个门呢？我想这纯粹是因为复杂性问题。一个钥匙一个门当然更</p>  <p>安全，但是会牵扯好多问题。钥匙 的产生，保管，获得，归还等等。其复杂性有可能随同步方法的增加呈几何级数增加，严重影响效率。这也</p>  <p>算是一个权衡的问题吧。为了增加一点点安全性，导致效 率大大降低，是多么不可取啊。</p>  <p>synchronized的一个简单例子</p>  <p>public class TextThread {</p>  <p>public static void main(String[] args) {    <br>&nbsp;&nbsp; TxtThread tt = new TxtThread();     <br>&nbsp;&nbsp; new Thread(tt).start();     <br>&nbsp;&nbsp; new Thread(tt).start();     <br>&nbsp;&nbsp; new Thread(tt).start();     <br>&nbsp;&nbsp; new Thread(tt).start();     <br>}     <br>}</p>  <p>class TxtThread implements Runnable {    <br>int num = 100;     <br>String str = new String();</p>  <p>public void run() {    <br>&nbsp;&nbsp; synchronized (str) {     <br>&nbsp;&nbsp;&nbsp; while (num &gt; 0) {</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp; try {    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thread.sleep(1);     <br>&nbsp;&nbsp;&nbsp;&nbsp; } catch (Exception e) {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e.getMessage();     <br>&nbsp;&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(Thread.currentThread().getName()     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + "this is " + num--);     <br>&nbsp;&nbsp;&nbsp; }     <br>&nbsp;&nbsp; }     <br>}     <br>}</p>  <p>上面的例子中为了制造一个时间差,也就是出错的机会,使用了Thread.sleep(10)</p>  <p>Java对多线程的支持与同步机制深受大家的喜爱，似乎看起来使用了synchronized关键字就可以轻松地解决多线程共享数据同步问题。到底如</p>  <p>何？――还得对synchronized关键字的作用进行深入了解才可定论。</p>  <p>总的说来，synchronized关键字可以作为函数的修饰符，也可作为函数内的语句，也就是平时说的同步方法和同步语句块。如果再细的分类，</p>  <p>synchronized可作用于instance变量、object reference（对象引用）、static函数和class literals(类名称字面常量)身上。</p>  <p>在进一步阐述之前，我们需要明确几点：</p>  <p>A．无论synchronized关键字加在方法上还是对象上，它取得的锁都是对象，而不是把一段代码或函数当作锁――而且同步方法很可能还会被其</p>  <p>他线程的对象访问。</p>  <p>B．每个对象只有一个锁（lock）与之相关联。</p>  <p>C．实现同步是要很大的系统开销作为代价的，甚至可能造成死锁，所以尽量避免无谓的同步控制。</p>  <p>接着来讨论synchronized用到不同地方对代码产生的影响：</p>  <p>假设P1、P2是同一个类的不同对象，这个类中定义了以下几种情况的同步块或同步方法，P1、P2就都可以调用它们。</p>  <p>1． 把synchronized当作函数修饰符时，示例代码如下：</p>  <p>Public synchronized void methodAAA()</p>  <p>{</p>  <p>//….</p>  <p>}</p>  <p>这也就是同步方法，那这时synchronized锁定的是哪个对象呢？它锁定的是调用这个同步方法对象。也就是说，当一个对象P1在不同的线程中</p>  <p>执行这个同步方法时，它们之间会形成互斥，达到同步的效果。但是这个对象所属的Class所产生的另一对象P2却可以任意调用这个被加了</p>  <p>synchronized关键字的方法。</p>  <p>上边的示例代码等同于如下代码：</p>  <p>public void methodAAA()</p>  <p>{</p>  <p>synchronized (this)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // (1)</p>  <p>{</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //…..</p>  <p>}</p>  <p>}</p>  <p>(1)处的this指的是什么呢？它指的就是调用这个方法的对象，如P1。可见同步方法实质是将synchronized作用于object reference。――那个</p>  <p>拿到了P1对象锁的线程，才可以调用P1的同步方法，而对P2而言，P1这个锁与它毫不相干，程序也可能在这种情形下摆脱同步机制的控制，造</p>  <p>成数据混乱：（</p>  <p>2．同步块，示例代码如下：</p>  <p>public void method3(SomeObject so)</p>  <p>{</p>  <p>&nbsp;&nbsp;&nbsp; synchronized(so)</p>  <p>&nbsp;&nbsp;&nbsp; {    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //…..     <br>&nbsp;&nbsp;&nbsp; }</p>  <p>}</p>  <p>这时，锁就是so这个对象，谁拿到这个锁谁就可以运行它所控制的那段代码。当有一个明确的对象作为锁时，就可以这样写程序，但当没有明</p>  <p>确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的instance变量（它得是一个对象）来充当锁：</p>  <p>class Foo implements Runnable</p>  <p>{</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private byte[] lock = new byte[0]; // 特殊的instance变量</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Public void methodA()    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; synchronized(lock) { //… }</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //…..</p>  <p>}</p>  <p>注：零长度的byte数组对象创建起来将比任何对象都经济――查看编译后的字节码：生成零长度的byte[]对象只需3条操作码，而Object lock</p>  <p>= new Object()则需要7行操作码。</p>  <p>3．将synchronized作用于static 函数，示例代码如下：</p>  <p>Class Foo    <br>{</p>  <p>&nbsp;&nbsp;&nbsp; public synchronized static void methodAAA()&nbsp;&nbsp; // 同步的static 函数    <br>&nbsp;&nbsp;&nbsp; {     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //….     <br>&nbsp;&nbsp;&nbsp; }</p>  <p>&nbsp;&nbsp;&nbsp; public void methodBBB()    <br>&nbsp;&nbsp;&nbsp; {</p>  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; synchronized(Foo.class)&nbsp;&nbsp; // class literal(类名称字面常量)</p>  <p>&nbsp;&nbsp;&nbsp; }    <br>}</p>  <p>&nbsp;&nbsp; 代码中的methodBBB()方法是把class literal作为锁的情况，它和同步的static函数产生的效果是一样的，取得的锁很特别，是当前调用这</p>  <p>个方法的对象所属的类（Class，而不再是由这个Class产生的某个具体对象了）。</p>  <p>记得在《Effective Java》一书中看到过将 Foo.class和 P1.getClass()用于作同步锁还不一样，不能用P1.getClass()来达到锁这个Class的</p>  <p>目的。P1指的是由Foo类产生的对象。</p>  <p>可以推断：如果一个类中定义了一个synchronized的static函数A，也定义了一个synchronized 的instance函数B，那么这个类的同一对象Obj</p>  <p>在多线程中分别访问A和B两个方法时，不会构成同步，因为它们的锁都不一样。A方法的锁是Obj这个对象，而B的锁是Obj所属的那个Class。</p>  <p>小结如下：</p>  <p>搞清楚synchronized锁定的是哪个对象，就能帮助我们设计更安全的多线程程序。</p>  <p>还有一些技巧可以让我们对共享资源的同步访问更加安全：</p>  <p>1． 定义private 的instance变量+它的 get方法，而不要定义public/protected的instance变量。如果将变量定义为public，对象在外界可以</p>  <p>绕过同步方法的控制而直接取得它，并改动它。这也是JavaBean的标准实现方式之一。</p>  <p>2． 如果instance变量是一个对象，如数组或ArrayList什么的，那上述方法仍然不安全，因为当外界对象通过get方法拿到这个instance对象</p>  <p>的引用后，又将其指向另一个对象，那么这个private变量也就变了，岂不是很危险。 这个时候就需要将get方法也加上synchronized同步，并</p>  <p>且，只返回这个private对象的clone()――这样，调用端得到的就是对象副本的引用了</p></div><div id="MySignature" style="display: block;">　<div id="AllanboltSignature">
+   <p id="PSignature" style="border-top: #e0e0e0 1px dashed; border-right: #e0e0e0 1px dashed; border-bottom: #e0e0e0 1px dashed; border-left: #e0e0e0 1px dashed;
+            padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 100px;
+            background: url(http://images.cnblogs.com/cnblogs_com/GnagWang/238585/r_1.png) #e5f1f4 no-repeat 1% 50%;
+            font-family: 微软雅黑; font-size:11px;">
+            <br>
+            作者：<a href="http://www.cnblogs.com/GnagWang/" target="_blank">GangWang</a>
+            <br>
+            出处：<a href="http://www.cnblogs.com/GnagWang/" target="_blank">http://www.cnblogs.com/GnagWang/</a>
+            <br>
+            本文版权归作者和博客园共有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。
+        </p>
+    　</div></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+绿色通道：
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(1966606,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://space.cnblogs.com/msg/send/Gang.Wang" target="_blank">与我联系</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./java synchronized详解 - Gang.Wang - 博客园_files/icon_weibo_24.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/GnagWang/" target="_blank"><img src="./java synchronized详解 - Gang.Wang - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/GnagWang/">Gang.Wang</a><br>
+<a href="http://home.cnblogs.com/u/GnagWang/followees">关注 - 20</a><br>
+<a href="http://home.cnblogs.com/u/GnagWang/followers">粉丝 - 141</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(1966606,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">58</span>
+    </div>
+	<div class="buryit" onclick="votePost(1966606,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966587.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966587.html" title="发布于2011-02-27 23:13">SharedPreferences 的用法</a><br><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966611.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966611.html" title="发布于2011-02-27 23:55">PowerManager和WakeLock的操作步骤</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2011-02-27 23:48</span> <a href="http://www.cnblogs.com/GnagWang/">Gang.Wang</a> 阅读(<span id="post_view_count">165006</span>) 评论(<span id="post_comment_count">34</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=1966606" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#" onclick="AddToWz(1966606);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=68179,cb_entryId=1966606,cb_blogApp=currentBlogApp,cb_blogUserGuid='2a1edc64-c935-df11-ba8f-001cf0cd104b',cb_entryCreatedDate='2011/2/27 23:48:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+<a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2274764" class="layer">#1楼</a><a name="2274764" id="comment_anchor_2274764"></a>  <span class="comment_date">2011-12-20 15:54</span> <a id="ctl00_CommentList_NameLink_0" href="http://www.cnitblog.com/r.aspx?url=http://www.chengxuyuans.com" rel="nofllow" target="_blank">程序员之家[未注册用户]</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2274764" class="blog_comment_body">写的不错啊 支持一下</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2324075" class="layer">#2楼</a><a name="2324075" id="comment_anchor_2324075"></a>  <span class="comment_date">2012-03-06 14:37</span> <a id="a_comment_author_2324075" href="http://www.cnblogs.com/hhuang2012/" target="_blank">doubleHHHH</a> <a href="http://msg.cnblogs.com/msg/send/doubleHHHH" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2324075" class="blog_comment_body">顶</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2324075,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2324075,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2350738" class="layer">#3楼</a><a name="2350738" id="comment_anchor_2350738"></a>  <span class="comment_date">2012-04-09 15:46</span> <a id="a_comment_author_2350738" href="http://home.cnblogs.com/u/396648/" target="_blank">wgyswqs</a> <a href="http://msg.cnblogs.com/msg/send/wgyswqs" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2350738" class="blog_comment_body">好东西</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2350738,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2350738,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2378044" class="layer">#4楼</a><a name="2378044" id="comment_anchor_2378044"></a>  <span class="comment_date">2012-05-16 09:06</span> <a id="a_comment_author_2378044" href="http://home.cnblogs.com/u/409431/" target="_blank">小小小虾米</a> <a href="http://msg.cnblogs.com/msg/send/%e5%b0%8f%e5%b0%8f%e5%b0%8f%e8%99%be%e7%b1%b3" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2378044" class="blog_comment_body">受教啦 果断收藏</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2378044,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2378044,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2436144" class="layer">#5楼</a><a name="2436144" id="comment_anchor_2436144"></a>  <span class="comment_date">2012-07-27 15:56</span> <a id="a_comment_author_2436144" href="http://www.cnblogs.com/liwei45212/" target="_blank">老王的蜕变</a> <a href="http://msg.cnblogs.com/msg/send/%e8%80%81%e7%8e%8b%e7%9a%84%e8%9c%95%e5%8f%98" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2436144" class="blog_comment_body">好文章，必须顶！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2436144,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2436144,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2470899" class="layer">#6楼</a><a name="2470899" id="comment_anchor_2470899"></a>  <span class="comment_date">2012-09-12 15:59</span> <a id="a_comment_author_2470899" href="http://home.cnblogs.com/u/447231/" target="_blank">若水恋冰</a> <a href="http://msg.cnblogs.com/msg/send/%e8%8b%a5%e6%b0%b4%e6%81%8b%e5%86%b0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2470899" class="blog_comment_body">好文章~~顶~~~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2470899,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2470899,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2490952" class="layer">#7楼</a><a name="2490952" id="comment_anchor_2490952"></a>  <span class="comment_date">2012-10-11 14:53</span> <a id="a_comment_author_2490952" href="http://www.cnblogs.com/summer-sai/" target="_blank">summer-赛</a> <a href="http://msg.cnblogs.com/msg/send/summer-%e8%b5%9b" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2490952" class="blog_comment_body">很好！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2490952,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2490952,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2490952_avatar" style="display:none;">http://pic.cnitblog.com/face/u424462.jpg?id=04171139</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2516124" class="layer">#8楼</a><a name="2516124" id="comment_anchor_2516124"></a>  <span class="comment_date">2012-10-26 14:16</span> <a id="a_comment_author_2516124" href="http://www.cnblogs.com/lxzh/" target="_blank">lxzh504</a> <a href="http://msg.cnblogs.com/msg/send/lxzh504" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2516124" class="blog_comment_body">写的很好，学习了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2516124,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2516124,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2516124_avatar" style="display:none;">http://pic.cnitblog.com/face/u330451.png?id=02164604</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2531658" class="layer">#9楼</a><a name="2531658" id="comment_anchor_2531658"></a>  <span class="comment_date">2012-11-13 22:56</span> <a id="a_comment_author_2531658" href="http://www.cnblogs.com/lee0oo0/" target="_blank">lee0oo0</a> <a href="http://msg.cnblogs.com/msg/send/lee0oo0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2531658" class="blog_comment_body">可以推断：如果一个类中定义了一个synchronized的static函数A，也定义了一个synchronized 的instance函数B，那么这个类的同一对象Obj<br>在多线程中分别访问A和B两个方法时，不会构成同步，因为它们的锁都不一样。A方法的锁是Obj这个对象，而B的锁是Obj所属的那个Class。<br><br>这里是不是混淆了A锁的Class吧,B锁的是对象吧</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2531658,&#39;Digg&#39;,this)">支持(4)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2531658,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2532410" class="layer">#10楼</a><a name="2532410" id="comment_anchor_2532410"></a>  <span class="comment_date">2012-11-14 15:25</span> <a id="a_comment_author_2532410" href="http://www.cnblogs.com/bastard/" target="_blank">Dufresne</a> <a href="http://msg.cnblogs.com/msg/send/Dufresne" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2532410" class="blog_comment_body">谁控制了锁，锁住了哪些地方。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2532410,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2532410,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2532410_avatar" style="display:none;">http://pic.cnitblog.com/face/u328668.jpg?id=03113633</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2559848" class="layer">#11楼</a><a name="2559848" id="comment_anchor_2559848"></a>  <span class="comment_date">2012-11-22 19:21</span> <a id="a_comment_author_2559848" href="http://www.cnblogs.com/bokun-wang/" target="_blank">wangbokun</a> <a href="http://msg.cnblogs.com/msg/send/wangbokun" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2559848" class="blog_comment_body">开始看java了啊，呵呵</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2559848,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2559848,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2559848_avatar" style="display:none;">http://pic.cnitblog.com/face/u305470.jpg?id=12153234</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2564078" class="layer">#12楼</a><a name="2564078" id="comment_anchor_2564078"></a>  <span class="comment_date">2012-11-27 16:05</span> <a id="a_comment_author_2564078" href="http://home.cnblogs.com/u/473463/" target="_blank">micon</a> <a href="http://msg.cnblogs.com/msg/send/micon" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2564078" class="blog_comment_body">写得很好，收藏下来慢慢看</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2564078,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2564078,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2569236" class="layer">#13楼</a><a name="2569236" id="comment_anchor_2569236"></a>  <span class="comment_date">2012-12-03 19:35</span> <a id="a_comment_author_2569236" href="http://home.cnblogs.com/u/450795/" target="_blank">wffger</a> <a href="http://msg.cnblogs.com/msg/send/wffger" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2569236" class="blog_comment_body">为什么我感觉三和四是在说同一件事？？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2569236,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2569236,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2575080" class="layer">#14楼</a><a name="2575080" id="comment_anchor_2575080"></a>  <span class="comment_date">2012-12-11 15:02</span> <a id="a_comment_author_2575080" href="http://www.cnblogs.com/vanezkw/" target="_blank">vanezkw</a> <a href="http://msg.cnblogs.com/msg/send/vanezkw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2575080" class="blog_comment_body">我@lee0oo0<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2531658" title="查看引用原文">引用</a></legend>可以推断：如果一个类中定义了一个synchronized的static函数A，也定义了一个synchronized 的instance函数B，那么这个类的同一对象Obj<br>在多线程中分别访问A和B两个方法时，不会构成同步，因为它们的锁都不一样。A方法的锁是Obj这个对象，而B的锁是Obj所属的那个Class。<br><br>这里是不是混淆了A锁的Class吧,B锁的是对象吧</fieldset><br>应该是混淆了。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2575080,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2575080,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2659979" class="layer">#15楼</a><a name="2659979" id="comment_anchor_2659979"></a>  <span class="comment_date">2013-04-17 17:24</span> <a id="a_comment_author_2659979" href="http://home.cnblogs.com/u/518304/" target="_blank">泡面先生</a> <a href="http://msg.cnblogs.com/msg/send/%e6%b3%a1%e9%9d%a2%e5%85%88%e7%94%9f" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2659979" class="blog_comment_body">当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题<br>。     run（）方法被调用，所有Synchronized声明的方法都会被锁上，那再设置一个Synchronized取变量的方法不是同样无法调用吗？<br><br>这个怎么实现？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2659979,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2659979,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2677069" class="layer">#16楼</a><a name="2677069" id="comment_anchor_2677069"></a>  <span class="comment_date">2013-05-09 21:37</span> <a id="a_comment_author_2677069" href="http://home.cnblogs.com/u/92972/" target="_blank">imnath!</a> <a href="http://msg.cnblogs.com/msg/send/imnath!" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2677069" class="blog_comment_body">学习了学习了！写的太赞了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2677069,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2677069,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2683754" class="layer">#17楼</a><a name="2683754" id="comment_anchor_2683754"></a>  <span class="comment_date">2013-05-18 10:43</span> <a id="a_comment_author_2683754" href="http://www.cnblogs.com/zhangzhangkai/" target="_blank">张张开</a> <a href="http://msg.cnblogs.com/msg/send/%e5%bc%a0%e5%bc%a0%e5%bc%80" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2683754" class="blog_comment_body">学习学习。谢谢楼主。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2683754,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2683754,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2706271" class="layer">#18楼</a><a name="2706271" id="comment_anchor_2706271"></a>  <span class="comment_date">2013-06-17 09:41</span> <a id="a_comment_author_2706271" href="http://home.cnblogs.com/u/465957/" target="_blank">happylishang</a> <a href="http://msg.cnblogs.com/msg/send/happylishang" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2706271" class="blog_comment_body">写的真的很详细</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2706271,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2706271,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2791611" class="layer">#19楼</a><a name="2791611" id="comment_anchor_2791611"></a>  <span class="comment_date">2013-10-12 15:59</span> <a id="a_comment_author_2791611" href="http://www.cnblogs.com/mountainking/" target="_blank">mountainking</a> <a href="http://msg.cnblogs.com/msg/send/mountainking" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2791611" class="blog_comment_body">写的真是他妈的太好了！褒义，别误会。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2791611,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2791611,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2806549" class="layer">#20楼</a><a name="2806549" id="comment_anchor_2806549"></a>  <span class="comment_date">2013-10-31 17:00</span> <a id="a_comment_author_2806549" href="http://www.cnblogs.com/fornever/" target="_blank">_Never_</a> <a href="http://msg.cnblogs.com/msg/send/_Never_" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2806549" class="blog_comment_body">代码第五例基本不能看。<br>讲得很详细，看了一半，等有需要了在看</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2806549,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2806549,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2818619" class="layer">#21楼</a><a name="2818619" id="comment_anchor_2818619"></a>  <span class="comment_date">2013-11-18 14:49</span> <a id="a_comment_author_2818619" href="http://www.cnblogs.com/mashroom/" target="_blank">辰采星</a> <a href="http://msg.cnblogs.com/msg/send/%e8%be%b0%e9%87%87%e6%98%9f" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2818619" class="blog_comment_body">写得很有趣啊，容易懂，赞一个。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2818619,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2818619,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2818619_avatar" style="display:none;">http://pic.cnitblog.com/face/u383018.jpg?id=02161627</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2829863" class="layer">#22楼</a><a name="2829863" id="comment_anchor_2829863"></a>  <span class="comment_date">2013-12-04 10:15</span> <a id="a_comment_author_2829863" href="http://www.cnblogs.com/stillwaiting/" target="_blank">Still_Waiting</a> <a href="http://msg.cnblogs.com/msg/send/Still_Waiting" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2829863" class="blog_comment_body">很好，粗略看了下，有空再细看</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2829863,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2829863,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2829863_avatar" style="display:none;">http://pic.cnitblog.com/face/u377619.jpg?id=21151038</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2835426" class="layer">#23楼</a><a name="2835426" id="comment_anchor_2835426"></a>  <span class="comment_date">2013-12-11 21:35</span> <a id="a_comment_author_2835426" href="http://www.cnblogs.com/zhengxw/" target="_blank">泽东我是少奇</a> <a href="http://msg.cnblogs.com/msg/send/%e6%b3%bd%e4%b8%9c%e6%88%91%e6%98%af%e5%b0%91%e5%a5%87" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2835426" class="blog_comment_body">好文章，果断转走</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2835426,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2835426,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2842511" class="layer">#24楼</a><a name="2842511" id="comment_anchor_2842511"></a>  <span class="comment_date">2013-12-22 19:15</span> <a id="a_comment_author_2842511" href="http://www.cnblogs.com/dabing69221/" target="_blank">大饼69221</a> <a href="http://msg.cnblogs.com/msg/send/%e5%a4%a7%e9%a5%bc69221" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2842511" class="blog_comment_body">楼主写的还不错，后半部分写的比前半部分精彩！值得学习！！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2842511,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2842511,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2842511_avatar" style="display:none;">http://pic.cnitblog.com/face/425293/20130814231351.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2855468" class="layer">#25楼</a><a name="2855468" id="comment_anchor_2855468"></a>  <span class="comment_date">2014-01-08 13:54</span> <a id="a_comment_author_2855468" href="http://home.cnblogs.com/u/558772/" target="_blank">goldmeihua</a> <a href="http://msg.cnblogs.com/msg/send/goldmeihua" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2855468" class="blog_comment_body">学习了，但是还有很多地方没搞明白。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2855468,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2855468,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2894821" class="layer">#26楼</a><a name="2894821" id="comment_anchor_2894821"></a>  <span class="comment_date">2014-03-13 16:41</span> <a id="a_comment_author_2894821" href="http://home.cnblogs.com/u/610238/" target="_blank">猫小猫的梦想</a> <a href="http://msg.cnblogs.com/msg/send/%e7%8c%ab%e5%b0%8f%e7%8c%ab%e7%9a%84%e6%a2%a6%e6%83%b3" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2894821" class="blog_comment_body">太好了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2894821,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2894821,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2977217" class="layer">#27楼</a><a name="2977217" id="comment_anchor_2977217"></a>  <span class="comment_date">2014-07-04 11:33</span> <a id="a_comment_author_2977217" href="http://home.cnblogs.com/u/400809/" target="_blank">三毛~</a> <a href="http://msg.cnblogs.com/msg/send/%e4%b8%89%e6%af%9b~" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2977217" class="blog_comment_body">写的好~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2977217,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2977217,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2996940" class="layer">#28楼</a><a name="2996940" id="comment_anchor_2996940"></a>  <span class="comment_date">2014-07-29 20:48</span> <a id="a_comment_author_2996940" href="http://www.cnblogs.com/didawuhan/" target="_blank">didwang</a> <a href="http://msg.cnblogs.com/msg/send/didwang" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2996940" class="blog_comment_body">讲解synchronized内容的文章，我印象最深刻的是这篇文章，大家也可以去看看，与本文的角度不太一样的：<a href="http://www.strutshome.com/index.php/archives/495" target="_blank">synchronized的深刻认识</a>的文章</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2996940,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2996940,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2996940_avatar" style="display:none;">http://pic.cnitblog.com/face/u197061.jpg</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3004542" class="layer">#29楼</a><a name="3004542" id="comment_anchor_3004542"></a>  <span class="comment_date">2014-08-10 13:53</span> <a id="a_comment_author_3004542" href="http://home.cnblogs.com/u/661859/" target="_blank">Gemma</a> <a href="http://msg.cnblogs.com/msg/send/Gemma" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3004542" class="blog_comment_body">写的很生动啊，博主牛</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3004542,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3004542,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3017571" class="layer">#30楼</a><a name="3017571" id="comment_anchor_3017571"></a>  <span class="comment_date">2014-08-27 10:44</span> <a id="a_comment_author_3017571" href="http://home.cnblogs.com/u/666316/" target="_blank">明天+=灿烂</a> <a href="http://msg.cnblogs.com/msg/send/%e6%98%8e%e5%a4%a9%2b%3d%e7%81%bf%e7%83%82" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3017571" class="blog_comment_body"><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2659979" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2659979);">@</a>泡面先生<br>你两个synchronized方法不要获取同一个锁不就行了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3017571,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3017571,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3017588" class="layer">#31楼</a><a name="3017588" id="comment_anchor_3017588"></a>  <span class="comment_date">2014-08-27 10:52</span> <a id="a_comment_author_3017588" href="http://home.cnblogs.com/u/666316/" target="_blank">明天+=灿烂</a> <a href="http://msg.cnblogs.com/msg/send/%e6%98%8e%e5%a4%a9%2b%3d%e7%81%bf%e7%83%82" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3017588" class="blog_comment_body"><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2996940" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2996940);">@</a>didwang<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#2996940" title="查看引用原文">引用</a></legend>讲解synchronized内容的文章，我印象最深刻的是这篇文章，大家也可以去看看，与本文的角度不太一样的：synchronized的深刻认识的文章</fieldset><br>哪里有不一样的角度了，只是本文的一小部分。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3017588,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3017588,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3037295" class="layer">#32楼</a><a name="3037295" id="comment_anchor_3037295"></a>  <span class="comment_date">2014-09-29 22:06</span> <a id="a_comment_author_3037295" href="http://home.cnblogs.com/u/675012/" target="_blank">收麦人</a> <a href="http://msg.cnblogs.com/msg/send/%e6%94%b6%e9%ba%a6%e4%ba%ba" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3037295" class="blog_comment_body">楼主写的十分详细！~~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3037295,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3037295,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3051047" class="layer">#33楼</a><a name="3051047" id="comment_anchor_3051047"></a>  <span class="comment_date">2014-10-25 17:09</span> <a id="a_comment_author_3051047" href="http://www.cnblogs.com/shubiao/" target="_blank">键盘鼠标</a> <a href="http://msg.cnblogs.com/msg/send/%e9%94%ae%e7%9b%98%e9%bc%a0%e6%a0%87" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3051047" class="blog_comment_body">mark</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3051047,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3051047,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3051047_avatar" style="display:none;">http://pic.cnitblog.com/face/482451/20140204154040.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3161710" class="layer">#34楼</a><a name="3161710" id="comment_anchor_3161710"></a><span id="comment-maxId" style="display:none;">3161710</span><span id="comment-maxDate" style="display:none;">2015/4/13 17:27:06</span>  <span class="comment_date">2015-04-13 17:27</span> <a id="a_comment_author_3161710" href="http://home.cnblogs.com/u/744159/" target="_blank">skypeboy</a> <a href="http://msg.cnblogs.com/msg/send/skypeboy" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3161710" class="blog_comment_body">非常好！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3161710,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3161710,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="http://www.rongcloud.cn/promotion" target="_blank">融云，免费为你的App加入IM功能——让你的App“聊”起来！！</a><br></div>
+<div id="opt_under_post"></div>
+<script type="text/javascript">
+    var enableGoogleAd = canShowAdsense(); var googletag = googletag || {}; googletag.cmd = googletag.cmd || [];
+    fixPostBodyFormat();
+</script>
+<div id="ad_under_post_holder">
+<script type="text/javascript">
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function () {
+        if (enableGoogleAd) {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' == document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        }
+    })();
+</script>
+<script type="text/javascript">
+    try {
+        if (enableGoogleAd) {
+            googletag.cmd.push(function () {
+                googletag.defineSlot('/1090369/cnblogs_blogpost_C1_sitehome', [300, 250], 'div-gpt-ad-1346480159711-0').addService(googletag.pubads());
+                googletag.defineSlot('/1090369/cnblogs_blogpost_C2', [468, 60], 'div-gpt-ad-1410860226396-0').addService(googletag.pubads());
+                googletag.pubads().enableSingleRequest();
+                googletag.enableServices();
+            });
+        };
+    } catch (e) { }
+</script>
+<div id="google_ad_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1346480159711-0" style="width:300px; height:250px;">
+    <script type="text/javascript">
+        try {
+            if (enableGoogleAd) {
+                googletag.cmd.push(function () { googletag.display('div-gpt-ad-1346480159711-0'); });            
+            } else {
+                $('#div-gpt-ad-1346480159711-0').hide();
+            }
+    } catch (e) { }
+    </script>
+    <div id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" src="javascript:"<html><body style='background:transparent'></body></html>"" style="border: 0px; vertical-align: bottom;"></iframe></div><iframe id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__hidden__" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__hidden__" width="0" height="0" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" src="javascript:"<html><body style='background:transparent'></body></html>"" style="border: 0px; vertical-align: bottom; visibility: hidden; display: none;"></iframe></div>
+</div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/519031/" target="_blank">开源势力正在扩大的五大标志</a><br> ·  <a href="http://news.cnblogs.com/n/519030/" target="_blank">阿诺合并浮现诺基亚野心 欲进设备商第一阵营</a><br> ·  <a href="http://news.cnblogs.com/n/519028/" target="_blank">微软花式坑爹：可以卸载应用不可以装</a><br> ·  <a href="http://news.cnblogs.com/n/519027/" target="_blank">不喜欢三星、苹果？那用树莓派DIY一台手机好了</a><br> ·  <a href="http://news.cnblogs.com/n/519026/" target="_blank">Android新功能：通过搜索引擎寻丢失Android手机</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="google_ad_c2" class="c_ad_block">
+<div id="div-gpt-ad-1410860226396-0" style="width:468px; height:60px;">
+<script type="text/javascript">
+try {
+    if (enableGoogleAd) {
+        googletag.cmd.push(function () { googletag.display('div-gpt-ad-1410860226396-0'); });
+    } else {
+        $('#div-gpt-ad-1346480159711-0').hide();
+    }
+} catch (e) { }
+</script>
+<div id="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" src="javascript:"<html><body style='background:transparent'></body></html>"" style="border: 0px; vertical-align: bottom;"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/518888/" target="_blank">微博背后的那些算法</a><br> ·  <a href="http://kb.cnblogs.com/page/518955/" target="_blank">谈“测试驱动的开发”</a><br> ·  <a href="http://kb.cnblogs.com/page/505877/" target="_blank">好团队不可能凭空出现，赢在Leader的可行规划</a><br> ·  <a href="http://kb.cnblogs.com/page/518772/" target="_blank">移动应用测试——打造完美应用的秘诀</a><br> ·  <a href="http://kb.cnblogs.com/page/137715/" target="_blank">什么是对象，为什么要面向对象，怎么才能面向对象？</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 200);
+});
+</script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><!-- Begin TwitThis (http://twitthis.com/) -->
+
+<a href="javascript:;" onclick="TwitThis.pop();"><img src="./java synchronized详解 - Gang.Wang - 博客园_files/twitthis_grey_72x22.gif" alt="TwitThis" style="border:none;"></a>
+<br>
+<a href="javascript:(function(){var a=document,b=a.createElement('script'),w=window,g={};g.altWindow=w.open('','_blank','height=370px,width=720px,toolbar=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no');setTimeout(function(){g.altWindow.focus()},1000);function f(o){try{var d=new google.share.EmailWidget(g);d.display()}catch(e){if(o>20)return;setTimeout(function(){f(o+1)},o<10?1<<o:1000)}};b.src='http://www.google.com/s2/sharing/js?script=socialsharing&key=AAAAJ--gdtJYHC_fJptEAHT5Bf21nDoVBhGcZiQWFfQywW69XqeNTwvVGLWYD6DUoc8nJQ';a.body.appendChild(b);f(0)})();">
+<img src="./java synchronized详解 - Gang.Wang - 博客园_files/icon_shared-stuff.png" alt="分享到Shared Stuff"></a>
+<!-- /End -->
+<!-- 订阅开始 -->
+
+<li><a href="http://fusion.google.com/add?feedurl=http://www.liuya.net/rss.xml" target="_blank"><img src="./java synchronized详解 - Gang.Wang - 博客园_files/r_icon_subshot01_google.gif" border="0" alt="订阅到谷歌"></a></li>
+<!-- 订阅结束 -->
+<div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/GnagWang/">Gang.Wang</a><br>园龄：<a href="http://home.cnblogs.com/u/GnagWang/" title="入园时间：2010-03-22">5年</a><br>粉丝：<a href="http://home.cnblogs.com/u/GnagWang/followers/">141</a><br>关注：<a href="http://home.cnblogs.com/u/GnagWang/followees/">20</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;2a1edc64-c935-df11-ba8f-001cf0cd104b&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+<div class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+
+
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/GnagWang/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/GnagWang/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/GnagWang/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/GnagWang/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/GnagWang/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div>
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(163)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/GnagWang/category/271743.html">android(50)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/GnagWang/category/238594.html">C#(20)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/GnagWang/category/238905.html">C++(22)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/GnagWang/category/454495.html">golang(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/GnagWang/category/317049.html">IOS(45)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/GnagWang/category/249900.html">Python(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/GnagWang/category/238753.html">Read Book Notes(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/GnagWang/category/238591.html">UITest(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/GnagWang/category/238596.html">Windows(11)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(198)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/GnagWang/archive/2015/01.html">2015年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/GnagWang/archive/2014/09.html">2014年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/GnagWang/archive/2014/07.html">2014年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/GnagWang/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/GnagWang/archive/2013/08.html">2013年8月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/GnagWang/archive/2013/02.html">2013年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/GnagWang/archive/2012/06.html">2012年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/GnagWang/archive/2012/05.html">2012年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/GnagWang/archive/2012/04.html">2012年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/GnagWang/archive/2012/03.html">2012年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/GnagWang/archive/2012/01.html">2012年1月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/GnagWang/archive/2011/12.html">2011年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/GnagWang/archive/2011/11.html">2011年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/GnagWang/archive/2011/10.html">2011年10月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/GnagWang/archive/2011/09.html">2011年9月 (19)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/GnagWang/archive/2011/08.html">2011年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/GnagWang/archive/2011/07.html">2011年7月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/GnagWang/archive/2011/06.html">2011年6月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/GnagWang/archive/2011/05.html">2011年5月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/GnagWang/archive/2011/04.html">2011年4月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/GnagWang/archive/2011/03.html">2011年3月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/GnagWang/archive/2011/02.html">2011年2月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/GnagWang/archive/2011/01.html">2011年1月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/GnagWang/archive/2010/12.html">2010年12月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/GnagWang/archive/2010/11.html">2010年11月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/GnagWang/archive/2010/10.html">2010年10月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/GnagWang/archive/2010/09.html">2010年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/GnagWang/archive/2010/08.html">2010年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/GnagWang/archive/2010/07.html">2010年7月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/GnagWang/archive/2010/06.html">2010年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/GnagWang/archive/2010/04.html">2010年4月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="http://www.cnblogs.com/GnagWang/archive/2010/03.html">2010年3月 (10)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3161710">1. Re:java synchronized详解</a></li>
+    <li class="recent_comment_body">非常好！</li>
+    <li class="recent_comment_author">--skypeboy</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/GnagWang/archive/2010/11/26/1888762.html#3149580">2. Re:Android中Toast的用法简介</a></li>
+    <li class="recent_comment_body">很有用</li>
+    <li class="recent_comment_author">--陶修瑕</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/GnagWang/archive/2011/03/21/1990507.html#3124164">3. Re:(转) Android 安全机制</a></li>
+    <li class="recent_comment_body">@ɹǝʞɔɐɥ发表时间还没这里转载的早呢。...</li>
+    <li class="recent_comment_author">--^-^antoon^-^</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/GnagWang/p/4254016.html#3120215">4. Re:移动时代软件测试团队该往哪里去？</a></li>
+    <li class="recent_comment_body">小团队初期的确不需要太多测试，但一旦上线用户激增，对用户负责的话，测试是必不可少的。现在产品讲究快，不测试就上，不是因为不需要测试，而是没有找到好的方法快速测试。我认为测试未死，测试开发本质上和开发没......</li>
+    <li class="recent_comment_author">--CoderZh</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/GnagWang/archive/2011/02/27/1966606.html#3051047">5. Re:java synchronized详解</a></li>
+    <li class="recent_comment_body">mark</li>
+    <li class="recent_comment_author">--键盘鼠标</li>
+</ul>
+</div>
+</div>
+</div><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="./java synchronized详解 - Gang.Wang - 博客园_files/java synchronized详解 - Gang.Wang - 博客园.html">1. java synchronized详解(165005)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2010/12/08/1899747.html">2. android 设置Button或者ImageButton的背景透明 半透明 透明(71599)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2010/11/26/1888762.html">3. Android中Toast的用法简介(32256)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2011/03/21/1990507.html">4. (转) Android 安全机制(26196)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2010/09/12/1824394.html">5. 关于WM_NCHITTEST消息(17660)</a></li></ul></div>
+</div>
+</div><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="./java synchronized详解 - Gang.Wang - 博客园_files/java synchronized详解 - Gang.Wang - 博客园.html">1. java synchronized详解(34)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2010/09/12/1824394.html">2. 关于WM_NCHITTEST消息(22)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2011/01/06/1929075.html">3. android 中管理短信(8)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2011/03/21/1990507.html">4. (转) Android 安全机制(8)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2011/03/07/1973195.html">5. 写给自己对软件测试经历的总结(7)</a></li></ul></div>
+</div>
+</div><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="./java synchronized详解 - Gang.Wang - 博客园_files/java synchronized详解 - Gang.Wang - 博客园.html">1. java synchronized详解(58)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2010/11/26/1888762.html">2. Android中Toast的用法简介(10)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2011/03/21/1990507.html">3. (转) Android 安全机制(6)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2011/01/06/1929075.html">4. android 中管理短信(5)</a></li><li><a href="http://www.cnblogs.com/GnagWang/archive/2010/09/12/1824394.html">5. 关于WM_NCHITTEST消息(4)</a></li></ul></div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><script async="" type="text/javascript" src="./java synchronized详解 - Gang.Wang - 博客园_files/check_359604.js"></script><iframe src="./java synchronized详解 - Gang.Wang - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2015 Gang.Wang
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<iframe id="ttif" src="./java synchronized详解 - Gang.Wang - 博客园_files/saved_resource.html" style="width:1px;height:1px;clear:both;margin:0px;padding:0px;border:none;"></iframe><iframe id="google_osd_static_frame_3677517995238" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
