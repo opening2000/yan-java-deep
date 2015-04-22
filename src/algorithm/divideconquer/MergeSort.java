@@ -12,7 +12,7 @@ public class MergeSort {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int a[] = { 34, 21, 56, 43, 99, 37, 78, 10 };// 这里对8个元素进行排序
+		int a[] = { 21, 34, 56, 43, 99, 37, 78, 10 };// 这里对8个元素进行排序
 		int low = 0, high = 7;// 初始化low和high的值，即数组的起始和终止的坐标
 		// 辅助数组b，作为临时数组
 		int b[] = new int[a.length];
@@ -40,16 +40,13 @@ public class MergeSort {
 	 * @param b
 	 */
 	public static void mergerSort(int a[], int low, int high, int b[]) {
-		System.out.println("into mergerSort : low = " + low + " , high = " + high);
 		int mid = 0;
 		if (low < high) {
 			mid = (high + low) / 2;// 分治位置,即将数组拆分的位置
-			System.out.println("mid = " + mid);
 			mergerSort(a, low, mid, b);
 			mergerSort(a, mid + 1, high, b);
 			merger(a, low, mid, high, b);// 归并
 		}
-		System.out.println("exit mergerSort : low = " + low + " , high = " + high);
 	}
 
 	/**
@@ -63,7 +60,7 @@ public class MergeSort {
 	 *            辅助数组
 	 */
 	public static void merger(int[] a, int low, int mid, int high, int b[]) {
-		System.out.println("into merger : low = " + low + " , mid = " + mid + " , high = " + high);
+
 		int i = low;
 		int j = mid + 1;
 		int p = 0;
@@ -83,6 +80,5 @@ public class MergeSort {
 		for (p = 0, i = low; i <= high; i++, p++) {
 			a[i] = b[p];
 		}
-		System.out.println("exit merger : low = " + low + " , mid = " + mid + " , high = " + high);
 	}
 }
