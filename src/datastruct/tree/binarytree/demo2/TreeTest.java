@@ -21,11 +21,14 @@ public class TreeTest {
 		System.out.println("---------------------------");
 		System.out.println(trees.getParent('d'));
 		System.out.println(trees.getParent('p'));
+		System.out.println(trees.getParent('c'));
+		System.out.println(trees.getParent('k'));
 	}
 }
 
 class PreOrderTree<E> {
 
+	//根节点
 	private Node<E> node;
 
 	/** 父节点 **/
@@ -136,10 +139,12 @@ class PreOrderTree<E> {
 		} else if (node.Lnode == null) {
 			node.Lnode = new Node<E>();
 			insert(node.Lnode, e);
-		} else if (node.Lnode == null) {
+		} else if (node.Rnode == null) {
 			node.Rnode = new Node<E>();
 			insert(node.Rnode, e);
 		} else {
+			//当前节点的左右子节点都不为空了，往左子节点添加子级
+			//这样构造出来的是个不平衡的二叉树
 			insert(node.Lnode, e);
 		}
 	}
@@ -151,6 +156,7 @@ class PreOrderTree<E> {
 		if (node.e == e) {
 			return null;
 		}
+		//目前的这种逻辑会导致右节点找不到父节点
 		while (flag) {
 			if (curnode.Lnode != null && curnode.Lnode.e != e) {
 				// prenode=curnode;
@@ -171,8 +177,11 @@ class PreOrderTree<E> {
 }
 
 class Node<E> {
+	//当前节点的左节点
 	Node<E> Lnode;
+	//当前节点的右节点
 	Node<E> Rnode;
+	//当前节点的值
 	E e;
 
 	public Node<E> getLnode() {
