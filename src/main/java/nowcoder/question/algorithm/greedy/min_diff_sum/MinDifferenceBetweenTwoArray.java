@@ -51,25 +51,17 @@ public class MinDifferenceBetweenTwoArray {
 			
 			int difference = Math.abs(sum2 - sum1);
 			
-			// 其中元素是长度为3的数组，第一位表示交换元素后的差的绝对值，第二位表示list1中交换元素的下标，第三位表示list2中交换元素的下标
-			List<Integer[]> swapList = new ArrayList<Integer[]>();
-			
+			// 和起始的差值比较下哪种交换差值最小
+			int minDifferenceAfterExchange = difference;
+			Integer[] minSwapCase = null;
 			for(int i=0;i<list1.size();i++){
 				for(int j=0;j<list2.size();j++){
 					// 计算交换lisr1[i] 和 list2[j] 后的差
 					int newDifference = Math.abs( (sum2 - list2.get(j) + list1.get(i)) - (sum1 - list1.get(i) + list2.get(j)) );
-					swapList.add(new Integer[]{newDifference, i, j});
-				}
-			}
-			
-			// 和起始的差值比较下哪种交换差值最小
-			int minDifferenceAfterExchange = difference;
-			Integer[] minSwapCase = null;
-			for(int i=0;i<swapList.size();i++){
-				Integer[] swap = swapList.get(i);
-				if(swap[0] < minDifferenceAfterExchange){
-					minDifferenceAfterExchange = swap[0];
-					minSwapCase = swap;
+					if(newDifference < minDifferenceAfterExchange){
+						minDifferenceAfterExchange = newDifference;
+						minSwapCase = new Integer[]{newDifference, i, j};
+					}
 				}
 			}
 			
@@ -83,7 +75,6 @@ public class MinDifferenceBetweenTwoArray {
 				list1.set(index1, list2.get(index2));
 				list2.set(index2, tmp);
 			}
-			
 			
 			// 如果和上次的最小diff相比没有变化，则退出循环
 			if(minDifferenceAfterExchange == 0 || minDifferenceAfterExchange == preMinDiff){
