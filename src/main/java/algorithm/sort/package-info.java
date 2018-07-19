@@ -30,5 +30,29 @@
  * 
  * https://blog.csdn.net/cxxc1976549895/article/details/71276124
  *
+ * 
+ * 
+ **********************************************************************
+ * 外排序
+ * 
+ * 大数据多路归并排序
+ * https://blog.csdn.net/wongson/article/details/49209903
+ * 
+ * 多路归并
+ * https://blog.csdn.net/u010367506/article/details/23565421
+ * 
+ * 常见的内排序和外排序算法
+ * https://www.epubit.com/selfpublish/article/333;jsessionid=4D120BF407C6047A794DD322A181CC8F
+ * 
+ * 
+ * 算法问题分类---Top-K问题与多路归并排序
+ * https://blog.csdn.net/hishentan/article/details/39099923
+ * 
+ * 败者树
+ * https://www.cnblogs.com/iyjhabc/p/3141665.html
+ * 
+ * 胜者树与败者树
+ * https://blog.csdn.net/wypblog/article/details/8074831
+ * 
  */
 package algorithm.sort;
