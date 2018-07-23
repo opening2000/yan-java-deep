@@ -30,6 +30,19 @@
  * 
  * https://blog.csdn.net/cxxc1976549895/article/details/71276124
  *
+ *
+ *
+ * 
+ * 二分查找又称折半查找
+ * https://blog.csdn.net/qq_29232943/article/details/52939374
+ * 排序系列 之 折半插入排序算法 —— Java实现
+ * https://www.cnblogs.com/snowcan/p/6244361.html
+ * 
+ * 
+ * Java经典排序算法之二分插入排序详解
+ * https://www.jb51.net/article/110415.htm
+ * 
+ * 
  * 
  * 
  **********************************************************************
