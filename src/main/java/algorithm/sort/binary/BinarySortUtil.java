@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class BinarySortUtil {
 
 	public static void main(String[] args) {
-		int[] ary= new int[]{3,41,369,1,2,4,5,9};
+		int[] ary= new int[]{3,41,369,1,2,41,4,5,9};
 		binarySort(ary);
 		System.out.println(Arrays.toString(ary));
 	}
@@ -43,6 +43,10 @@ public class BinarySortUtil {
 				}
 			}
 			
+			// 退出上面while循环的方式有两种：
+			// 1、break退出。这种情况下high是恰好比ary[i]小于（或相等，当有多个和ary[i]相等的值的时候是相等）的下标
+			// 2、不符合low<=high条件。这种情况下high比low要小，那么必定是比ary[i]小的元素的下标
+			// 也就是说high右侧一个元素必定要>=ary[i]
 			
 			// 使用插入排序将ary[i]插入到i左侧的有序数组中
 			for(int j=i-1;j>high;j--){
