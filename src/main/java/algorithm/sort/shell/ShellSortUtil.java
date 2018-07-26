@@ -2,11 +2,20 @@ package algorithm.sort.shell;
 
 import java.util.Arrays;
 
-public class ShellSortUtil {
 
-	public ShellSortUtil() {
-		// TODO Auto-generated constructor stub
-	}
+/**
+ * 
+ * 希尔排序
+ * 		希尔排序(Shell's Sort)是插入排序的一种又称“缩小增量排序”（Diminishing Increment Sort），是直接插入排序算法的一种更高效的改进版本。
+ * 		希尔排序是非稳定排序算法。该方法因D.L.Shell于1959年提出而得名。
+ * 		希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；
+ * 		随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。 
+ * 
+ * 
+ * @author Yan
+ *
+ */
+public class ShellSortUtil {
 
 	/**
 	 * @param args
@@ -16,29 +25,15 @@ public class ShellSortUtil {
 	}
 
 	public static void testSort(){
-		int[] ary = new int[100000];
-		for(int i=0 ; i < ary.length ; i++){
-			ary[i] = ary.length - i;
-		}
-		//[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]这个特例需要考虑
-		//[1, 2, 9, 5, 3, 4, 7, 8, 6, 10]
-		System.out.println(Arrays.toString(ary));
-		long a = System.currentTimeMillis();
+		int[] ary = new int[]{72, 6, 57, 88, 60, 42, 83, 73, 42, 48, 85};
+        System.out.println(Arrays.toString(ary));
 		shellSort(ary);
-		long b = System.currentTimeMillis();
 		System.out.println(Arrays.toString(ary));
-		System.out.println(b-a);
 		
-		ary = new int[100000];
-		for(int i=0 ; i < ary.length ; i++){
-			ary[i] = ary.length - i;
-		}
+		ary = new int[]{72, 6, 57, 88, 60, 42, 83, 73, 42, 48, 85};
 		System.out.println(Arrays.toString(ary));
-		long c = System.currentTimeMillis();
 		shellSort2(ary);
-		long d = System.currentTimeMillis();
 		System.out.println(Arrays.toString(ary));
-		System.out.println(d-c);
 	}
 	/**
 	 * 希尔排序，插入排序的一种
@@ -55,7 +50,7 @@ public class ShellSortUtil {
 						ary[j] = ary[j+d];
 						ary[j+d] = tmp;
 						j = j-d;
-						System.out.println(Arrays.toString(ary));
+						//System.out.println(Arrays.toString(ary));
 					}
 				}
 				d = d/2;
@@ -71,6 +66,7 @@ public class ShellSortUtil {
 			int d = ary.length/2;
 			while(d > 0){
 				//一般步长是多少，就会分成多少个组，步长较小的情况，大步长以后考虑
+				// 此处i表示第几组
 				for(int i=0;i<d;i++){
 					//对每个分组中的元素进行插入排序
 					for(int j=0+i+d;j<ary.length;j+=d){
@@ -90,4 +86,5 @@ public class ShellSortUtil {
 			}
 		}
 	}
+	
 }
