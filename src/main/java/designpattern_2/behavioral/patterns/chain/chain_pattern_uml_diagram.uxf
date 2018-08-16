@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>550</x>
+      <y>160</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>AbstractLogger
+--
++INFO: int
++DEBUG: int
++ERROR: int
++level: int
++nextLogger: AbstractLogger
+--
++setNextLogger(): void
++logMessage(): void
+-write(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>180</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ChainPatternDemo
+--
+
+--
++main(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>800</x>
+      <y>190</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract class&gt;&gt;
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>870</x>
+      <y>460</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>ErrorLogger
+--
+
+--
++ErrorLogger(): void
++setNextLogger(): void
++logMessage(): void
+-write(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>460</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>ConsoleLogger
+--
+
+--
++ConsoleLogger(): void
++setNextLogger(): void
++logMessage(): void
+-write(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>550</x>
+      <y>460</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>FilerLogger
+--
+
+--
++FilerLogger(): void
++setNextLogger(): void
++logMessage(): void
+-write(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>340</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>340</y>
+      <w>360</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;340.0;70.0;340.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>340</y>
+      <w>350</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>330.0;10.0;330.0;70.0;10.0;70.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>190</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+uses</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+</diagram>
