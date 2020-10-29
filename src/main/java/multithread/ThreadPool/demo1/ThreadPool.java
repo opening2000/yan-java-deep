@@ -1,4 +1,4 @@
-package multithread.ThreadPool;
+package multithread.ThreadPool.demo1;
 
 import java.util.Collections;
 import java.util.Date;

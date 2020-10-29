@@ -1,4 +1,4 @@
-package multithread.ThreadPool;
+package multithread.ThreadPool.demo1;
 
 /** 任务接口类 **/
 
