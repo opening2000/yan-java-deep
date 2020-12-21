@@ -1,11 +1,16 @@
-package leetcode.word_pattern;
+package leetcode.problem.word_pattern;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 
+ * https://leetcode-cn.com/problems/word-pattern/
+ * @author Yankj
+ *
+ */
 public class WordPattern {
 
 	public static void main(String[] args) {

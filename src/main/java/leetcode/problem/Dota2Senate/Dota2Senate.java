@@ -1,8 +1,13 @@
-package leetcode.Dota2Senate;
+package leetcode.problem.Dota2Senate;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * https://leetcode-cn.com/problems/dota2-senate/
+ * @author Yankj
+ *
+ */
 public class Dota2Senate {
 
 	public static void main(String[] args) {

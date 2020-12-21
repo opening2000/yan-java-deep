@@ -1,7 +1,12 @@
-package leetcode.best_sell_stock;
+package leetcode.problem.best_sell_stock;
 
 import java.util.Stack;
 
+/**
+ * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+ * @author Yankj
+ *
+ */
 public class BestSellStock {
 
 	public static void main(String[] args) {

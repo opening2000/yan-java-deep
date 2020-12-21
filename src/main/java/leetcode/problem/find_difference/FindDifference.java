@@ -1,10 +1,11 @@
-package leetcode.find_difference;
+package leetcode.problem.find_difference;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
+/**
+ * 
+ * https://leetcode-cn.com/problems/find-the-difference/
+ * @author Yankj
+ *
+ */
 public class FindDifference {
 
 	public static void main(String[] args) {

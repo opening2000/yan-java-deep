@@ -1,8 +1,13 @@
-package leetcode.increasing_digits;
+package leetcode.problem.increasing_digits;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * https://leetcode-cn.com/problems/monotone-increasing-digits/
+ * @author Yankj
+ *
+ */
 public class MonotoneIncreasingDigits {
 
 	public static void main(String[] args) {

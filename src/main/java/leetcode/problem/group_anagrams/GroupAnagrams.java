@@ -1,4 +1,4 @@
-package leetcode.group_anagrams;
+package leetcode.problem.group_anagrams;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * https://leetcode-cn.com/problems/group-anagrams/
+ * @author Yankj
+ *
+ */
 public class GroupAnagrams {
 
 	public static void main(String[] args) {
