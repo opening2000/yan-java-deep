@@ -48,3 +48,37 @@ class Solution {
     	return count;
     }
 }
+
+/**
+ * 贪心算法
+ * 拿最小的饼干匹配胃口最小的小孩
+ * 
+ * @author Yankj
+ *
+ */
+class Solution2 {
+    public int findContentChildren(int[] g, int[] s) {
+    	// 先排序胃口和饼干
+    	// 拿最小的饼干匹配胃口最小的小孩
+    	
+    	// 排序胃口
+    	Arrays.sort(g);
+    	// 排序饼干
+    	Arrays.sort(s);
+    	
+    	int count = 0;
+
+    	int si = 0;
+    	for(int i=0;i<g.length;i++) {
+    		for(int j=si;j<s.length;j++) {
+    			si = j+1;
+    			if(g[i] <= s[j]) {
+    				count++;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	return count;
+    }
+}
