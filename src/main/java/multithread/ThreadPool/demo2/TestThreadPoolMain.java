@@ -58,6 +58,8 @@ public class TestThreadPoolMain {
         for(int i=0;i<3;i++) {
             pool.execute(new ThreadTask());
         }
+        pool.submit(new ThreadTask());
+        
 	}
 	
 	/**
